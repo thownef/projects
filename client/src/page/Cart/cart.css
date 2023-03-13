@@ -1,0 +1,133 @@
+.container {
+    margin: 20px 80px;
+}
+
+.cart-list-header {
+    display: flex;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px 0;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+}
+
+.cart-list-header-title {
+    flex: 3;
+}
+.cart-list-header-price {
+    padding-left: 10px;
+    flex: 2;
+}
+.cart-list-header-quantity {
+    flex: 2;
+}
+.cart-list-header-amount {
+    flex: 2;
+}
+.cart-list-header-action {
+    flex: 2;
+}
+
+.cart-item-outer {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    align-content: center;
+    width: 80%;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+.cart-item-img {
+    display: flex;
+    gap: 0.5rem;
+    width: 200px;
+}
+
+.cart-item-img img {
+    width: 50px;
+    height: 50px;
+}
+
+.cart-item-title {
+    font-size: 0.9rem;
+}
+
+.cart-item-img {
+    flex: 3;
+}
+
+.cart-item-price {
+    flex: 2;
+    padding-left: 10px;
+}
+.cart-item-quantity {
+    flex: 2;
+}
+.cart-item-amount {
+    flex: 2;
+}
+.cart-item-action {
+    flex: 2;
+}
+
+.cart__bottom {
+    margin: 0 140px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.cart__total {
+    display: flex;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cart__checkout h4 {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cart__total--info {
+    width: 50%;
+}
+
+.cart__total--before {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.cart__total--ship {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.cart__total--line {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+.cart__total--late {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    color: red;
+}
+
+.cart__checkout--info {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+}
+
+.cart__checkout-name,
+.cart__checkout-phone {
+    width: 50%;
+}

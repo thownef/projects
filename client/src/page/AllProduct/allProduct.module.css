@@ -1,0 +1,42 @@
+.allProductWrapper {
+    padding: 20px 10px;
+}
+
+.category-top-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.category-title {
+    margin-left: 40px;
+}
+
+.toolbar-mode {
+    margin-right: 80px;
+    display: flex;
+    column-gap: 4.5rem;
+}
+
+.category-product-list {
+    max-width: 100%;
+    margin-top: 20px;
+    margin-right: 40px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.test {
+    width: 100% !important;
+    display: flex;
+    justify-content: center;
+}
+
+.product-item {
+    width: 25%;
+    padding: 20px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+}

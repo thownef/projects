@@ -1,0 +1,51 @@
+.checkout__container {
+    width: 800px;
+    margin: 60px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+.checkout h4 {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.checkout--info {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.checkout__info-user {
+    display: flex;
+    width: 100%;
+}
+
+.checkout-name {
+    width: 50%;
+}
+
+.checkout-phone {
+    width: 50%;
+}
+
+.checkout__address {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.checkout__button {
+    width: 120px;
+    height: 34px;
+    padding: 8px 28px;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+}
+
+.checkout__light {
+    border: 1px solid #ccc;
+}
