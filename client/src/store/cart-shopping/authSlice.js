@@ -12,8 +12,7 @@ const authSlice = createSlice({
     initialState: initialState,
     reducers: {
         login(state, action) {
-            const currentUser = action.payload
-            state.user = currentUser
+            state.user = action.payload
             localStorage.setItem('user', JSON.stringify(state.user))
             redirect('/')
         },
@@ -27,8 +26,12 @@ const authSlice = createSlice({
             state.user = null
             localStorage.clear()
         },
+        update(state, action) {
+            state.user = action.payload
+            localStorage.setItem('user', JSON.stringify(state.user))
+        },
     },
 })
 
-export const { login, loginFail, logout } = authSlice.actions
+export const { login, loginFail, logout, update } = authSlice.actions
 export default authSlice

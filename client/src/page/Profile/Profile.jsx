@@ -5,8 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Header from '../../components/Header/Header'
 import './profile.css'
 import Footer from '../../components/Footer/Footer'
-import axios from 'axios'
-import { login } from '../../store/cart-shopping/authSlice'
+import { userUpdate } from '../../store/apiCall'
 
 export default function Profile() {
     const user = useSelector((state) => state.auth.user)
@@ -14,18 +13,9 @@ export default function Profile() {
     const [data, setData] = useState({})
     const dispatch = useDispatch()
 
-    const updateUser = async (e) => {
+    const updateUser = (e) => {
         e.preventDefault()
-        try {
-            await axios.put('http://localhost:8888/api/users/' + user._id, data)
-            const res = await axios.post(
-                'http://localhost:8888/api/auth/login',
-                data
-            )
-            res && dispatch(login(res.data))
-        } catch (error) {
-            console.log(error)
-        }
+        userUpdate(user, dispatch, data)
     }
 
     return (

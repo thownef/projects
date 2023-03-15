@@ -8,6 +8,7 @@ import Login from './page/Login/Login'
 import ProductDetail from './page/ProductDetail/ProductDetail'
 import Profile from './page/Profile/Profile'
 import Register from './page/Register/Register'
+import ROUTES from './constant/routes'
 
 function App() {
     const user = useSelector((state) => state.auth.user)
@@ -15,24 +16,29 @@ function App() {
     return (
         <div>
             <Routes>
-                <Route path='/' element={<Navigate to='/home' />} />
-                <Route path='/home' element={<Home />} />
-                <Route path='/product/:id' element={<ProductDetail />} />
-                <Route path='/products' element={<AllProduct />} />
-                <Route path='/cart' element={<Cart />} />
+                <Route path='/' element={<Navigate to={ROUTES.HOME} />} />
+                <Route path={ROUTES.HOME} element={<Home />} />
                 <Route
-                    path='/profile'
-                    element={user ? <Profile /> : <Navigate to='/login' />}
+                    path={ROUTES.PRODUCT_DETAIL}
+                    element={<ProductDetail />}
+                />
+                <Route path={ROUTES.PRODUCTS} element={<AllProduct />} />
+                <Route path={ROUTES.CART} element={<Cart />} />
+                <Route
+                    path={ROUTES.PROFILE}
+                    element={
+                        user ? <Profile /> : <Navigate to={ROUTES.LOGIN} />
+                    }
                 />
                 <Route
-                    path='/login'
+                    path={ROUTES.LOGIN}
                     element={user ? <Navigate to='/' /> : <Login />}
                 />
                 <Route
-                    path='/register'
+                    path={ROUTES.REGISTER}
                     element={user ? <Navigate to='/' /> : <Register />}
                 />
-                <Route path='/checkout' element={<Checkout />} />
+                <Route path={ROUTES.CHECKOUT} element={<Checkout />} />
             </Routes>
         </div>
     )

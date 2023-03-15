@@ -8,7 +8,8 @@ import Box from '@mui/material/Box'
 import { useSelector } from 'react-redux'
 import { Stack } from '@mui/system'
 import { MenuItem, Pagination, Select } from '@mui/material'
-import axios from 'axios'
+import { getProducts } from '../../store/apiCall'
+import useFilterProduct from '../../hooks/useProducts'
 
 export default function AllProduct() {
     const [data, setData] = useState([])
@@ -19,7 +20,7 @@ export default function AllProduct() {
 
     const searchTerm = useSelector((state) => state.search.searchTerm)
     const isFetching = useSelector((state) => state.search.isFetching)
-
+    const { filterProduct, searchProduct, sortProduct } = useFilterProduct()
     const count = Math.ceil(data.length / 12)
 
     const handleChange = (_, value) => {
@@ -31,108 +32,26 @@ export default function AllProduct() {
     const displayPage = data.slice(visitedPage, visitedPage + 12)
 
     useEffect(() => {
-        const getProducts = async () => {
-            try {
-                const res = await axios.get(
-                    'http://localhost:8888/api/products'
-                )
-                setData(res.data)
-                setPro(res.data)
-            } catch (err) {
-                console.log(err)
-            }
-        }
         getProducts()
+            .then((data) => {
+                setData(data)
+                setPro(data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }, [])
 
     useEffect(() => {
-        const filterArray = (type) => {
-            const types = {
-                default: 'default',
-                shoe: 'shoe',
-                sandal: 'sandal',
-            }
-            const filterProperty = types[type]
-            if (filterProperty === 'default') {
-                const filterProduct = pro
-                setData(filterProduct)
-            }
+        const search = searchProduct(searchTerm, pro)
+        setData(search)
 
-            if (filterProperty === 'shoe') {
-                const filterProduct = pro.filter((item) => {
-                    return item.category === 'shoe'
-                })
+        const products = filterProduct(filterType, search)
+        setData(products)
 
-                setData(filterProduct)
-            }
-
-            if (filterProperty === 'sandal') {
-                const filterProduct = pro
-                    .filter((item) => {
-                        return item.category === 'sandal'
-                    })
-                    .map((item) => item)
-                setData(filterProduct)
-            }
-        }
-
-        filterArray(filterType)
-    }, [filterType, pro])
-
-    useEffect(() => {
-        const searchedProduct = pro.filter((item) => {
-            if (searchTerm === '') return item
-            if (item.title.toLowerCase().includes(searchTerm.toLowerCase())) {
-                return item
-            }
-            return false
-        })
-        setData(searchedProduct)
-
-        if (sortType === 'default') {
-            const sortProduct = searchedProduct
-            setData(sortProduct)
-        }
-        if (sortType === 'ascending') {
-            const sortProduct = searchedProduct
-                .sort((a, b) => {
-                    let x = a.title.toLowerCase()
-                    let y = b.title.toLowerCase()
-                    return x === y ? 0 : x < y ? 1 : -1
-                })
-                .map((item) => item)
-            setData(sortProduct)
-        }
-        if (sortType === 'descending') {
-            const sortProduct = searchedProduct
-                .sort((a, b) => {
-                    let x = a.title.toLowerCase()
-                    let y = b.title.toLowerCase()
-                    return x === y ? 0 : x > y ? 1 : -1
-                })
-                .map((item) => item)
-            setData(sortProduct)
-        }
-        if (sortType === 'highprice') {
-            const sortProduct = searchedProduct
-                .sort((a, b) => {
-                    return a.price === b.price ? 0 : a.price < b.price ? 1 : -1
-                })
-                .map((item) => item)
-            setData(sortProduct)
-        }
-        if (sortType === 'lowprice') {
-            const sortProduct = searchedProduct
-                .sort((a, b) => {
-                    let x = a.price
-                    let y = b.price
-                    return x === y ? 0 : x > y ? 1 : -1
-                })
-                .map((item) => item)
-            setData(sortProduct)
-        }
-        setData(searchedProduct)
-    }, [searchTerm, sortType, pro])
+        const sort = sortProduct(sortType, products)
+        setData(sort)
+    }, [searchTerm, filterType, sortType])
 
     return (
         <div>
@@ -202,8 +121,11 @@ export default function AllProduct() {
                             </Box>
                         </div>
                     ) : (
-                        displayPage.map((item, index) => (
-                            <div className={style['product-item']} key={index}>
+                        displayPage.map((item) => (
+                            <div
+                                className={style['product-item']}
+                                key={item._id}
+                            >
                                 <ProductItem item={item} />
                             </div>
                         ))

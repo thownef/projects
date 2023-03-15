@@ -1,26 +1,20 @@
-import React, { useState } from 'react'
-import axios from 'axios'
+import React from 'react'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import { Link, useNavigate } from 'react-router-dom'
 import Header from '../../components/Header/Header'
 import styles from './register.module.css'
+import { useDispatch, useSelector } from 'react-redux'
+import { userRegister } from '../../store/apiCall'
+import ROUTES from '../../constant/routes'
 
 export default function Register() {
     const navigate = useNavigate()
-    const [error, setError] = useState(false)
+    const dispatch = useDispatch()
+    const err = useSelector((state) => state.auth.error)
 
     const onSubmit = async (values, { setSubmitting }) => {
         const { confirmpassword, ...data } = values
-
-        try {
-            const res = await axios.post(
-                'http://localhost:8888/api/auth/register',
-                data
-            )
-            res && navigate('/login')
-        } catch (error) {
-            setError(true)
-        }
+        userRegister(data, dispatch, navigate)
         setSubmitting(false)
     }
 
@@ -49,7 +43,10 @@ export default function Register() {
                             errors.confirmPassword = 'Vui lòng nhập lại'
                         }
 
-                        if (values.confirmPassword !== values.password) {
+                        if (
+                            values.confirmPassword.trim() !==
+                            values.password.trim()
+                        ) {
                             errors.confirmPassword = 'Mật khẩu không chính xác'
                         }
                         return errors
@@ -103,14 +100,14 @@ export default function Register() {
                             >
                                 Đăng ký
                             </button>
-                            {error && (
+                            {err && (
                                 <div className={styles['register__error']}>
                                     Tài khoản, mật khẩu không hợp lệ
                                 </div>
                             )}
                             <div className={styles['request__button']}>
                                 Đã có tài khoản ?
-                                <Link to='/login'>Đăng nhập</Link>
+                                <Link to={ROUTES.LOGIN}>Đăng nhập</Link>
                             </div>
                         </Form>
                     )}

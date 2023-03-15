@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header/Header'
 import styles from './productDetail.module.css'
 import { useParams } from 'react-router-dom'
-import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
-import { addItem } from '../../store/cart-shopping/cartSlice'
 import { Rating } from '@mui/material'
 import Footer from '../../components/Footer/Footer'
+import { createCart, getAProduct } from '../../store/apiCall'
 
 export default function ProductDetail() {
     const { id } = useParams()
@@ -16,32 +15,21 @@ export default function ProductDetail() {
     const user = useSelector((state) => state.auth.user)
 
     useEffect(() => {
-        const fetchProduct = async () => {
-            const res = await axios.get(
-                'http://localhost:8888/api/products/find/' + id
-            )
-            setProduct(res.data)
-        }
-        fetchProduct()
+        getAProduct(id)
+            .then((data) => {
+                setProduct(data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }, [id])
 
     const addToCart = () => {
         const data = {
             product: { ...product, totalPrice: product.price },
-            user: user,
+            user,
         }
-        const creatCart = async () => {
-            try {
-                const res = await axios.post(
-                    'http://localhost:8888/api/cart',
-                    data
-                )
-                res && dispatch(addItem(res.data))
-            } catch (err) {
-                console.log(err)
-            }
-        }
-        creatCart()
+        createCart(data, dispatch)
     }
 
     useEffect(() => {

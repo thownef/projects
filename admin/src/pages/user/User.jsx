@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
+import { getUser } from '../../../../client/src/store/apiCall'
 import { updateUser } from '../../redux/apiCalls'
 import './user.css'
 
@@ -10,17 +11,18 @@ export default function User() {
     const param = useParams()
     const { userId: id } = param
     const [user, setUser] = useState({})
-    useEffect(() => {
-        const fetchUser = async () => {
-            const res = await axios.get(
-                'http://localhost:8888/api/users/find/' + id
-            )
-            setUser(res.data)
-        }
-        fetchUser()
-    }, [id])
     const [data, setData] = useState({})
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        getUser(id)
+            .then((data) => {
+                setUser(data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }, [id])
 
     const handleClick = () => {
         updateUser(id, data, dispatch)

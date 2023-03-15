@@ -5,73 +5,29 @@ import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
 
 import { useDispatch, useSelector } from 'react-redux'
-import {
-    addItem,
-    resetProduct,
-    deleteProduct,
-} from '../../store/cart-shopping/cartSlice'
-import axios from 'axios'
+import { createCart, deleteProduct, getCart, remove } from '../../store/apiCall'
 
 export default function CartItem(props) {
     const product = props.item
     const user = useSelector((state) => state.auth.user)
     const dispatch = useDispatch()
 
-    const getCart = async () => {
-        try {
-            const res = await axios.get(
-                'http://localhost:8888/api/cart/find/' + user._id
-            )
-
-            if (res.data.products.length > 0) {
-                dispatch(resetProduct(res.data))
-            }
-        } catch (err) {
-            console.log(err)
-        }
-    }
+    getCart(user._id, dispatch)
 
     const addToCart = () => {
         const data = {
             product: { ...product, totalPrice: product.price },
-            user: user,
+            user,
         }
-        const creatCart = async () => {
-            try {
-                const res = await axios.post(
-                    'http://localhost:8888/api/cart',
-                    data
-                )
-                dispatch(addItem(res.data))
-            } catch (err) {
-                console.log(err)
-            }
-        }
-        creatCart()
+        createCart(data, dispatch)
     }
 
-    const remove = async () => {
-        try {
-            await axios.post(
-                'http://localhost:8888/api/cart/product/' + product._id,
-                user
-            )
-            await getCart()
-        } catch (error) {
-            console.log(error)
-        }
+    const removeItem = () => {
+        remove(product._id, user)
     }
 
-    const deleteItem = async () => {
-        try {
-            const res = await axios.post(
-                'http://localhost:8888/api/cart/' + product._id,
-                user
-            )
-            dispatch(deleteProduct(res.data))
-        } catch (error) {
-            console.log(error)
-        }
+    const deleteItem = () => {
+        deleteProduct(product._id, user, dispatch)
     }
 
     return (
@@ -100,7 +56,7 @@ export default function CartItem(props) {
                     </div>
                     <div className={styles['cart__product-btn']}>
                         <span
-                            onClick={remove}
+                            onClick={removeItem}
                             className={styles['decrease-btn']}
                         >
                             <RemoveIcon fontSize='small' />

@@ -1,10 +1,10 @@
-import axios from 'axios'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Header from '../../components/Header/Header'
-import { login, loginFail } from '../../store/cart-shopping/authSlice'
+import ROUTES from '../../constant/routes'
+import { userLogin } from '../../store/apiCall'
 import styles from './login.module.css'
 
 export default function Login() {
@@ -13,16 +13,7 @@ export default function Login() {
 
     const onSubmit = async (values, { setSubmitting }) => {
         const { confirmpassword, ...data } = values
-
-        try {
-            const res = await axios.post(
-                'http://localhost:8888/api/auth/login',
-                data
-            )
-            res && dispatch(login(res.data))
-        } catch (error) {
-            dispatch(loginFail())
-        }
+        userLogin(data, dispatch)
         setSubmitting(false)
     }
 
@@ -89,7 +80,7 @@ export default function Login() {
                             )}
                             <div className={styles['request__button']}>
                                 Chưa có tài khoản ?
-                                <Link to='/register'>Đăng ký</Link>
+                                <Link to={ROUTES.REGISTER}>Đăng ký</Link>
                             </div>
                         </Form>
                     )}

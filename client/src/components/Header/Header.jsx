@@ -12,7 +12,8 @@ import CartMini from '../cartMini/CartMini'
 import { Box } from '@mui/system'
 import { logout } from '../../store/cart-shopping/authSlice'
 import { resetProduct } from '../../store/cart-shopping/cartSlice'
-import axios from 'axios'
+import { getCart } from '../../store/apiCall'
+import ROUTES from '../../constant/routes'
 
 export default function Header() {
     const dispatch = useDispatch()
@@ -24,21 +25,8 @@ export default function Header() {
     const openProfile = Boolean(anchorEl)
 
     useEffect(() => {
-        const getCart = async () => {
-            try {
-                const res = await axios.get(
-                    'http://localhost:8888/api/cart/find/' + user._id
-                )
-
-                if (res.data.products.length > 0) {
-                    dispatch(resetProduct(res.data))
-                }
-            } catch (err) {
-                console.log(err)
-            }
-        }
-        getCart()
-    }, [user, dispatch])
+        getCart(user._id, dispatch)
+    }, [user._id, dispatch])
 
     const handleSearch = () => {
         dispatch(startSearch())
@@ -83,19 +71,19 @@ export default function Header() {
                 <img src={logo} alt='' />
             </Link>
             <div className='header__navigation'>
-                <Link to='/products' className='header__navigation--item'>
+                <Link to={ROUTES.PRODUCTS} className='header__navigation--item'>
                     GIÀY NỮ
                 </Link>
-                <Link to='/products' className='header__navigation--item'>
+                <Link to={ROUTES.PRODUCTS} className='header__navigation--item'>
                     GIÀY NAM{' '}
                 </Link>
-                <Link to='/products' className='header__navigation--item'>
+                <Link to={ROUTES.PRODUCTS} className='header__navigation--item'>
                     BALO - TÚI{' '}
                 </Link>
-                <Link to='/products' className='header__navigation--item'>
+                <Link to={ROUTES.PRODUCTS} className='header__navigation--item'>
                     PHỤ KIỆN{' '}
                 </Link>
-                <Link to='/products' className='header__navigation--item'>
+                <Link to={ROUTES.PRODUCTS} className='header__navigation--item'>
                     SẢN PHẨM BÁN CHẠY
                 </Link>
             </div>
@@ -136,7 +124,9 @@ export default function Header() {
                                 }}
                             >
                                 <MenuItem onClick={handleClose}>
-                                    <Link to='/profile'>Trang cá nhân</Link>
+                                    <Link to={ROUTES.PROFILE}>
+                                        Trang cá nhân
+                                    </Link>
                                 </MenuItem>
                                 <MenuItem onClick={handleLogout}>
                                     Đăng xuất
@@ -144,7 +134,7 @@ export default function Header() {
                             </Menu>
                         </>
                     ) : (
-                        <Link to='/login'>
+                        <Link to={ROUTES.LOGIN}>
                             <PersonIcon style={{ color: 'black' }} />
                         </Link>
                     )}

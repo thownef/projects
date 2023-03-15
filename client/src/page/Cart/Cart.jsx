@@ -4,17 +4,18 @@ import Header from '../../components/Header/Header'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteProduct } from '../../store/cart-shopping/cartSlice'
 import { Link } from 'react-router-dom'
+import ROUTES from '../../constant/routes'
 
 export default function Cart() {
     const cartProducts = useSelector((state) => state.cart.cartItem)
+    console.log(cartProducts)
     const totalAmount = useSelector((state) => state.cart.totalAmount)
     const dispatch = useDispatch()
 
     const shipcode = 0
 
     const deleteItem = (item) => {
-        const { id, title, image, price, quantity } = item
-        dispatch(deleteProduct({ id, title, image, price, quantity }))
+        dispatch(deleteProduct(item.id))
     }
 
     return (
@@ -39,8 +40,8 @@ export default function Cart() {
                         Giỏ hàng trống
                     </h4>
                 ) : (
-                    cartProducts.map((item, index) => (
-                        <div className='cart-item-outer' key={index}>
+                    cartProducts.map((item) => (
+                        <div className='cart-item-outer' key={item._id}>
                             <div className='cart-item-img'>
                                 <img src={item.image} alt='' />
                                 <div className='cart-item-title'>
@@ -98,10 +99,10 @@ export default function Cart() {
 
                 <div className='cart__bottom'>
                     <button>
-                        <Link to='/products'>Tiếp tục mua sắm</Link>
+                        <Link to={ROUTES.PRODUCTS}>Tiếp tục mua sắm</Link>
                     </button>
                     <button>
-                        <Link to='/checkout'>Thanh toán</Link>
+                        <Link to={ROUTES.CHECKOUT}>Thanh toán</Link>
                     </button>
                 </div>
             </div>

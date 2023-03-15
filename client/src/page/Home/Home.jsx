@@ -5,7 +5,7 @@ import styles from './home.module.css'
 import shopnow from '../../assets/images/shopnow.jpg'
 import ProductItem from '../../components/productItem/ProductItem'
 import Footer from '../../components/Footer/Footer'
-import axios from 'axios'
+import { getProducts } from '../../store/apiCall'
 
 export default function Home() {
     const [data, setData] = useState([])
@@ -14,17 +14,13 @@ export default function Home() {
     const [hotSadal, setHotSandal] = useState([])
 
     useEffect(() => {
-        const getProducts = async () => {
-            try {
-                const res = await axios.get(
-                    'http://localhost:8888/api/products'
-                )
-                setData(res.data)
-            } catch (err) {
-                console.log(err)
-            }
-        }
         getProducts()
+            .then((data) => {
+                setData(data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }, [])
 
     useEffect(() => {
@@ -68,10 +64,10 @@ export default function Home() {
                         <img src={shopnow} alt='' />
                     </div>
                     <div className={styles['home__selling--list']}>
-                        {hotProduct.map((item, index) => (
+                        {hotProduct.map((item) => (
                             <div
                                 className={styles['home__selling--item']}
-                                key={index}
+                                key={item._id}
                             >
                                 <ProductItem item={item} />
                             </div>
@@ -83,10 +79,10 @@ export default function Home() {
                         GIÀY CAO GÓT NỮ
                     </p>
                     <div className={styles['home__shoe--list']}>
-                        {hotShoe.map((item, index) => (
+                        {hotShoe.map((item) => (
                             <div
                                 className={styles['home__shoe--item']}
-                                key={index}
+                                key={item._id}
                             >
                                 <ProductItem item={item} />
                             </div>
@@ -97,10 +93,10 @@ export default function Home() {
                 <div className={styles['home__shoe']}>
                     <p className={styles['home__shoe-title']}>DÉP CHO NỮ</p>
                     <div className={styles['home__shoe--list']}>
-                        {hotSadal.map((item, index) => (
+                        {hotSadal.map((item) => (
                             <div
                                 className={styles['home__shoe--item']}
-                                key={index}
+                                key={item._id}
                             >
                                 <ProductItem item={item} />
                             </div>

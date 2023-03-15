@@ -4,8 +4,8 @@ import CloseIcon from '@mui/icons-material/Close'
 import { Link } from 'react-router-dom'
 import CartItem from '../CartItem/CartItem'
 import { useDispatch, useSelector } from 'react-redux'
-import axios from 'axios'
-import { resetProduct } from '../../store/cart-shopping/cartSlice'
+import { getCart } from '../../store/apiCall'
+import ROUTES from '../../constant/routes'
 
 export default function CartMini({ onClose }) {
     const user = useSelector((state) => state.auth.user)
@@ -14,21 +14,8 @@ export default function CartMini({ onClose }) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        const getCart = async () => {
-            try {
-                const res = await axios.get(
-                    'http://localhost:8888/api/cart/find/' + user._id
-                )
-
-                if (res.data.products.length > 0) {
-                    dispatch(resetProduct(res.data))
-                }
-            } catch (err) {
-                console.log(err)
-            }
-        }
-        user && getCart()
-    }, [user, dispatch])
+        getCart(user._id, dispatch)
+    }, [user._id, dispatch])
 
     return (
         <div className={styles['cartmini__container']}>
@@ -48,8 +35,8 @@ export default function CartMini({ onClose }) {
                     {cartProducts.length === 0 ? (
                         <h6>Giỏ hàng trống</h6>
                     ) : (
-                        cartProducts.map((item, index) => (
-                            <CartItem item={item} key={index} />
+                        cartProducts.map((item) => (
+                            <CartItem item={item} key={item._id} />
                         ))
                     )}
                 </div>
@@ -59,7 +46,7 @@ export default function CartMini({ onClose }) {
                         Total: <span>{cartTotal.toLocaleString()}đ</span>
                     </h6>
                     <button>
-                        <Link to='/cart'>GIỎ HÀNG</Link>
+                        <Link to={ROUTES.CART}>GIỎ HÀNG</Link>
                     </button>
                 </div>
             </div>

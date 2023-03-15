@@ -6,7 +6,7 @@ import { productData } from '../../dummyData'
 // import { Publish } from '@material-ui/icons'
 import { useDispatch } from 'react-redux'
 import { updateProduct } from '../../redux/apiCalls'
-import axios from 'axios'
+import { getAProduct } from '../../../../client/src/store/apiCall'
 
 export default function Product() {
     const param = useParams()
@@ -14,14 +14,15 @@ export default function Product() {
     const [product, setProduct] = useState({})
     const [data, setData] = useState({})
     const dispatch = useDispatch()
+
     useEffect(() => {
-        const fetchUser = async () => {
-            const res = await axios.get(
-                'http://localhost:8888/api/products/find/' + id
-            )
-            setProduct(res.data)
-        }
-        fetchUser()
+        getAProduct(id)
+            .then((data) => {
+                setProduct(data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }, [id])
 
     const handleClick = (e) => {

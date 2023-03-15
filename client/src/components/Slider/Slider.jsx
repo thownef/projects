@@ -9,6 +9,8 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 
+const slider = [banner, banner1, banner, banner1, banner]
+
 export default function Slider() {
     return (
         <div className='slider'>
@@ -26,23 +28,11 @@ export default function Slider() {
                 modules={[Autoplay, Pagination, Navigation]}
                 className='mySwiper'
             >
-                <SwiperSlide>
-                    <img src={banner} alt='' />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <img src={banner1} alt='' />
-                </SwiperSlide>
-
-                <SwiperSlide>
-                    <img src={banner} alt='' />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <img src={banner1} alt='' />
-                </SwiperSlide>
-
-                <SwiperSlide>
-                    <img src={banner} alt='' />
-                </SwiperSlide>
+                {slider.map((item, index) => (
+                    <SwiperSlide key={index}>
+                        <img src={item} alt='' />
+                    </SwiperSlide>
+                ))}
             </Swiper>
         </div>
     )
