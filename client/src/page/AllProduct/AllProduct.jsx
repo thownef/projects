@@ -9,18 +9,16 @@ import { useSelector } from 'react-redux'
 import { Stack } from '@mui/system'
 import { MenuItem, Pagination, Select } from '@mui/material'
 import { getProducts } from '../../store/apiCall'
-import useFilterProduct from '../../hooks/useProducts'
 
 export default function AllProduct() {
     const [data, setData] = useState([])
-    const [pro, setPro] = useState(data)
+
     const [sortType, setSortType] = useState('default')
     const [filterType, setFilterType] = useState('default')
     const [page, setPage] = useState(1)
 
     const searchTerm = useSelector((state) => state.search.searchTerm)
     const isFetching = useSelector((state) => state.search.isFetching)
-    const { filterProduct, searchProduct, sortProduct } = useFilterProduct()
     const count = Math.ceil(data.length / 12)
 
     const handleChange = (_, value) => {
@@ -32,25 +30,13 @@ export default function AllProduct() {
     const displayPage = data.slice(visitedPage, visitedPage + 12)
 
     useEffect(() => {
-        getProducts()
+        getProducts(searchTerm, filterType, sortType)
             .then((data) => {
                 setData(data)
-                setPro(data)
             })
             .catch((err) => {
                 console.log(err)
             })
-    }, [])
-
-    useEffect(() => {
-        const search = searchProduct(searchTerm, pro)
-        setData(search)
-
-        const products = filterProduct(filterType, search)
-        setData(products)
-
-        const sort = sortProduct(sortType, products)
-        setData(sort)
     }, [searchTerm, filterType, sortType])
 
     return (

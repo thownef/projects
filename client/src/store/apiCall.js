@@ -40,9 +40,15 @@ export const getUser = async (id) => {
     }
 }
 
-export const getProducts = async () => {
+export const getProducts = async (searchTerm, filterType, sortType) => {
     try {
-        const res = await axios.get(`${DOMAIN}/products`)
+        const res = await axios.get(`${DOMAIN}/products`, {
+            params: {
+                search: searchTerm,
+                filter: filterType,
+                sort: sortType,
+            },
+        })
         return res.data
     } catch (err) {
         console.log(err)

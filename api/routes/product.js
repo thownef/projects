@@ -28,10 +28,69 @@ router.get('/find/:id', async (req, res) => {
 //get all
 router.get('/', async (req, res) => {
     try {
-        const product = await Product.find()
+        const qsearch = req.query.search
+        const qfilter = req.query.filter
+        const qsort = req.query.sort
+        let product
+        //filter
+        if (qfilter !== 'default') {
+            product = await Product.find({
+                category: {
+                    $in: [qfilter],
+                },
+            })
+        } else {
+            product = await Product.find()
+        }
+
+        // search
+        if (!qsearch === undefined) {
+            return false
+        } else {
+            const data = product.filter(
+                (item) =>
+                    item.title.toLowerCase().indexOf(qsearch.toLowerCase()) !==
+                    -1
+            )
+            product = data
+        }
+        //sort
+        if (qsort === 'default') {
+            product
+        }
+
+        if (qsort === 'ascending') {
+            product.sort((a, b) => {
+                let x = a.title.toLowerCase()
+                let y = b.title.toLowerCase()
+                return x === y ? 0 : x < y ? 1 : -1
+            })
+        }
+        if (qsort === 'descending') {
+            product.sort((a, b) => {
+                let x = a.title.toLowerCase()
+                let y = b.title.toLowerCase()
+                return x === y ? 0 : x > y ? 1 : -1
+            })
+        }
+        if (qsort === 'highprice') {
+            product.sort((a, b) => {
+                let x = a.price
+                let y = b.price
+                return x === y ? 0 : x < y ? 1 : -1
+            })
+        }
+        if (qsort === 'lowprice') {
+            product.sort((a, b) => {
+                let x = a.price
+                let y = b.price
+                return x === y ? 0 : x > y ? 1 : -1
+            })
+        }
+
         res.status(200).json(product)
-    } catch (err) {
-        res.status(500).json(err)
+    } catch (error) {
+        console.log(error)
     }
 })
 
