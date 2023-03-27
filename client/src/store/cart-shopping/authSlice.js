@@ -34,4 +34,5 @@ const authSlice = createSlice({
 })
 
 export const { login, loginFail, logout, update } = authSlice.actions
+
 export default authSlice

@@ -58,7 +58,6 @@ router.get('/', async (req, res) => {
         if (qsort === 'default') {
             product
         }
-
         if (qsort === 'ascending') {
             product.sort((a, b) => {
                 let x = a.title.toLowerCase()

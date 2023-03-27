@@ -14,7 +14,7 @@ export default function Home() {
     const [hotSadal, setHotSandal] = useState([])
 
     useEffect(() => {
-        getProducts()
+        getProducts('','default','default')
             .then((data) => {
                 setData(data)
             })
