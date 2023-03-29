@@ -1,49 +1,113 @@
 .footerWrapper {
-    padding: 60px 30px 20px 30px;
-    display: flex;
-    justify-content: space-around;
+  padding: 60px 30px 20px 30px;
+  display: flex;
+  justify-content: space-around;
 }
 
 .footer__info {
-    padding: 0 20px;
+  padding: 0 20px;
 }
 
 .footer__info h4 {
-    font-size: 0.9rem;
-    font-weight: 400;
+  font-size: 0.9rem;
+  font-weight: 400;
 }
 
 .footer__info--content {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .footer__info--content span {
-    font-size: 1.3rem;
-    font-weight: 400;
-    margin: 8px 0;
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin: 8px 0;
 }
 
 .footer__info--content p {
-    font-size: 0.8rem;
-    margin-bottom: 24px;
+  font-size: 0.8rem;
+  margin-bottom: 24px;
 }
 
 .footer__info--content h4 {
-    font-size: 0.9rem;
+  font-size: 0.9rem;
 }
 
 .footer__info ul {
-    list-style: none;
+  list-style: none;
 }
 
 .footer__info li {
-    font-size: 0.9rem;
-    font-weight: 300;
-    margin: 10px 0;
+  font-size: 0.9rem;
+  font-weight: 300;
+  margin: 10px 0;
 }
 
 .footer__social span a {
-    padding: 10px;
-    color: black;
+  padding: 10px;
+  color: black;
+}
+
+@media (max-width: 1024px) {
+  .footerWrapper {
+    padding: 0 30px 20px 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer__info h4 {
+    font-size: 0.8rem;
+  }
+
+  .footer__info--content span {
+    font-size: 1.1rem;
+  }
+
+  .footer__info--content p {
+    font-size: 0.7rem;
+    margin-bottom: 12px;
+  }
+
+  .footer__info h4 {
+    font-size: 0.7rem;
+  }
+
+  .footer__info li {
+    font-size: 0.8rem;
+    margin: 8px 0;
+  }
+
+  .footer__social svg {
+    width: 20px;
+  }
+}
+
+@media (max-width: 426px) {
+  .footerWrapper {
+    padding: 0;
+    display: inline-block;
+  }
+
+  .footer__info h4 {
+    font-size: 0.9rem;
+  }
+
+  .footer__info--content span {
+    font-size: 1.3rem;
+  }
+
+  .footer__info--content p {
+    font-size: 0.8rem;
+    margin-bottom: 12px;
+  }
+
+  .footer__info li {
+    font-size: 0.9rem;
+    margin: 8px 0;
+  }
+
+  .footer__social svg {
+    width: 24px;
+    margin-top: 10px;
+  }
 }

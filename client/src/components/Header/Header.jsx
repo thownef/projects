@@ -8,7 +8,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { search, startSearch } from "../../store/cart-shopping/searchSlice";
-import { Button, Drawer, Menu, MenuItem } from "@mui/material";
+import { Button, Container, Drawer, Grid, Menu, MenuItem } from "@mui/material";
 import CartMini from "../cartMini/CartMini";
 import { Box } from "@mui/system";
 import { logout } from "../../store/cart-shopping/authSlice";
@@ -98,89 +98,97 @@ export default function Header() {
   );
 
   return (
-    <div className="headerWrapper">
-      <Link to="/" className="header__logo">
-        <img src={logo} alt="" />
-      </Link>
-      <div className="header__navigation">
-        <Link to={ROUTES.PRODUCTS} className="header__navigation--item">
-          GIÀY NỮ
+    <Container maxWidth="xl">
+      <Grid
+        container
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ height: "60px" }}
+        className="headerWrapper"
+      >
+        <Link to="/" className="header__logo">
+          <img src={logo} alt="" />
         </Link>
-        <Link to={ROUTES.PRODUCTS} className="header__navigation--item">
-          GIÀY NAM{" "}
-        </Link>
-        <Link to={ROUTES.PRODUCTS} className="header__navigation--item">
-          BALO - TÚI{" "}
-        </Link>
-        <Link to={ROUTES.PRODUCTS} className="header__navigation--item">
-          PHỤ KIỆN{" "}
-        </Link>
-        <Link to={ROUTES.PRODUCTS} className="header__navigation--item">
-          SẢN PHẨM BÁN CHẠY
-        </Link>
-      </div>
-
-      <div className="header__right">
-        <div className="header__search">
-          <input
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Tìm kiếm"
-            type="text"
-          />
-          <SearchIcon style={{ color: "black" }} onClick={handleSearch} />
+        <div className="header__navigation">
+          <Link to={ROUTES.PRODUCTS} className="header__navigation--item">
+            GIÀY NỮ
+          </Link>
+          <Link to={ROUTES.PRODUCTS} className="header__navigation--item">
+            GIÀY NAM
+          </Link>
+          <Link to={ROUTES.PRODUCTS} className="header__navigation--item">
+            BALO - TÚI
+          </Link>
+          <Link to={ROUTES.PRODUCTS} className="header__navigation--item">
+            PHỤ KIỆN
+          </Link>
+          <Link to={ROUTES.PRODUCTS} className="header__navigation--item">
+            SẢN PHẨM BÁN CHẠY
+          </Link>
         </div>
-        <div className="header__user">
-          {user ? (
-            <>
-              <Button
-                id="basic-button"
-                aria-controls={openProfile ? "basic-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={openProfile ? "true" : undefined}
-                onClick={handleClick}
-              >
+
+        <div className="header__right">
+          <div className="header__search">
+            <input
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Tìm kiếm"
+              type="text"
+            />
+            <SearchIcon style={{ color: "black" }} onClick={handleSearch} />
+          </div>
+          <div className="header__user">
+            {user ? (
+              <>
+                <Button
+                  id="basic-button"
+                  aria-controls={openProfile ? "basic-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={openProfile ? "true" : undefined}
+                  onClick={handleClick}
+                >
+                  <PersonIcon style={{ color: "black" }} />
+                </Button>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={openProfile}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}
+                >
+                  <MenuItem onClick={handleClose}>
+                    <Link to={ROUTES.PROFILE}>Trang cá nhân</Link>
+                  </MenuItem>
+                  <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
+                </Menu>
+              </>
+            ) : (
+              <Link to={ROUTES.LOGIN}>
                 <PersonIcon style={{ color: "black" }} />
-              </Button>
-              <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={openProfile}
-                onClose={handleClose}
-                MenuListProps={{
-                  "aria-labelledby": "basic-button",
-                }}
-              >
-                <MenuItem onClick={handleClose}>
-                  <Link to={ROUTES.PROFILE}>Trang cá nhân</Link>
-                </MenuItem>
-                <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
-              </Menu>
-            </>
-          ) : (
-            <Link to={ROUTES.LOGIN}>
-              <PersonIcon style={{ color: "black" }} />
-            </Link>
-          )}
-        </div>
+              </Link>
+            )}
+          </div>
 
-        <div className="header__cart">
-          <Button onClick={() => setOpen(true)}>
-            <ShoppingCartIcon style={{ color: "black" }} />
-          </Button>
-          <Drawer anchor={"right"} open={open}>
-            {list("right")}
-          </Drawer>
-          <span className="totalquantity">{totalQuantity}</span>
+          <div className="header__cart">
+            <Button onClick={() => setOpen(true)}>
+              <ShoppingCartIcon style={{ color: "black" }} />
+            </Button>
+            <Drawer anchor={"right"} open={open}>
+              {list("right")}
+            </Drawer>
+            <span className="totalquantity">{totalQuantity}</span>
+          </div>
+          <div className="header__menu">
+            <Button onClick={() => setOpen1(true)}>
+              <MenuIcon />
+            </Button>
+            <Drawer anchor={"right"} open={open1} onClose={toggleDrawer(false)}>
+              {list1("right")}
+            </Drawer>
+          </div>
         </div>
-        <div className="header__menu">
-          <Button onClick={() => setOpen1(true)}>
-            <MenuIcon />
-          </Button>
-          <Drawer anchor={"right"} open={open1} onClose={toggleDrawer(false)}>
-            {list1("right")}
-          </Drawer>
-        </div>
-      </div>
-    </div>
+      </Grid>
+    </Container>
   );
 }
